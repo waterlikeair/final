@@ -1,6 +1,7 @@
 """
 The Purpose of the project is to summarize FEMA data for disasters for 2024 and 2025.  The table shows all the disasters for 2024 and 2025.  
-There is a graph depicting all of the disasters of 2024 and 2025.  This project downloads the data from an API then uses the file to plot and chart the data.
+There is a graph depicting all of the disasters of 2024 and 2025.  It also goes into a Summary of the Total Disasters by State and Incident Type.
+This project downloads the data from an API then uses the file to plot and chart the data.
 I found the most challenging part of this was going through the FEMA data.  I decided to use only one API for it since I could not find anything that matched up.
 """
 
@@ -62,3 +63,15 @@ plt.ylabel("Total Disasters")
 plt.grid(True)
 plt.tight_layout()
 plt.show()
+
+print("Summary of the Total Disasters by State and Incident Type")
+# Count total disasters by state
+state_counts = filtered_df['stateName'].value_counts()
+print("Disaster counts by state:")
+print(state_counts)
+
+# Count total disasters by incident type
+incident_counts = filtered_df['incidentType'].value_counts()
+print("\nDisaster counts by incident type:")
+print(incident_counts)
+
