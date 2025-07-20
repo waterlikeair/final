@@ -1,0 +1,7 @@
+request_id,date,state,county,resource_requested,quantity,days_to_fulfill
+"»¿""request_id",date,state,county,resource_requested,quantity,days_to_fulfill
+001,2023-06-15,TX,Harris,Water,1000,2
+002,2023-06-16,CA,Los Angeles,Food,500,3
+003,2023-06-17,FL,Miami-Dade,Medical Supplies,300,5
+004,2023-06-18,TX,Dallas,Blankets,250,1
+005,2023-06-19,FL,Miami-Dade,Water,800,4

@@ -1,0 +1,64 @@
+"""
+The Purpose of the project is to summarize FEMA data for disasters for 2024 and 2025.  The table shows all the disasters for 2024 and 2025.  
+There is a graph depicting all of the disasters of 2024 and 2025.  This project downloads the data from an API then uses the file to plot and chart the data.
+I found the most challenging part of this was going through the FEMA data.  I decided to use only one API for it since I could not find anything that matched up.
+"""
+
+import pandas as pd
+import numpy as npy
+import matplotlib.pyplot as plt
+
+#calling the CSV file
+df_dcl=pd.read_csv("fema_disasterdecl.csv")
+
+#Converting to datatime from UTC
+df_dcl['incidentBeginDate'] = pd.to_datetime(df_dcl['incidentBeginDate'], utc=True, errors='coerce')
+df_dcl2= pd.to_datetime(df_dcl['incidentBeginDate'], utc=True, errors='coerce')
+
+
+print("FEMA Summary 2024-2025")
+
+# Defining start and end of date range
+start_date = pd.to_datetime("2024-01-01", utc=True)
+end_date = pd.to_datetime("2025-12-31", utc=True)
+
+# Filtering using date range
+filtered_df = df_dcl[
+    (df_dcl['incidentBeginDate'] >= start_date) & 
+    (df_dcl['incidentBeginDate'] <= end_date)
+    ]
+#For California only
+#filtered_df2=filtered_df[filtered_df['stateCode'].isin(["CA"])]
+
+#filtering columns
+result_df = filtered_df[["disasterNumber","incidentBeginDate","stateName", "incidentType", "disasterName"]]
+
+
+#dropping duplicated data
+result_df = result_df.drop_duplicates().reset_index(drop=True)
+print(result_df)
+
+
+#datetime insurance
+df_dcl['incidentBeginDate'] = pd.to_datetime(df_dcl['incidentBeginDate'])
+
+#filtering date range
+df_filtered = df_dcl[
+    (df_dcl['incidentBeginDate'] >= '2024-01-01') & 
+    (df_dcl['incidentBeginDate'] <= '2025-12-31')
+]
+
+#grouping data together to find the counts of incident type by date
+daily_counts = df_filtered.groupby(['incidentBeginDate', 'incidentType']).size().unstack(fill_value=0)
+
+#finding the sum of the incidents
+cumulative_disasters = daily_counts.cumsum()
+
+# Plotting the final graph
+plt.figure(figsize=(12, 6))
+cumulative_disasters.plot(title="FEMA Disasters Over 2024-2025 by Incident Type", ax=plt.gca())
+plt.xlabel("Date")
+plt.ylabel("Total Disasters")
+plt.grid(True)
+plt.tight_layout()
+plt.show()

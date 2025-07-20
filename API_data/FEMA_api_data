@@ -1,0 +1,12 @@
+import pandas as pd
+
+url="https://www.fema.gov/api/open/v2/MissionAssignments?$format=csv"
+
+
+#convert to df
+#df=pd.DataFrame(data['PublicAssistFEMASummary'])
+
+df=pd.read_csv(url)
+print(df.head())
+
+df.to_csv("femamission.csv",index=False)
